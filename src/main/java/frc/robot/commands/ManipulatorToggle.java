@@ -4,36 +4,39 @@
 
 package frc.robot.commands;
 
-
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.Manipulator;
 
-/** An example command that uses an example subsystem. */
-public class TankDrive extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  
-  private final Drive drive;
-  public TankDrive(Drive subsystem) {
-    drive = subsystem;
+public class ManipulatorToggle extends CommandBase {
+  private final Manipulator manipulatorSubsystem;
+
+  private double oldValue = -Constants.manipulatorSpeed;
+
+  /** Creates a new ManipulatorToggle. */
+  public ManipulatorToggle(Manipulator subsystem) {
+    manipulatorSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drive);
+    addRequirements(manipulatorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    oldValue *= -1;
+    manipulatorSubsystem.setManipulator(oldValue);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    drive.setPower(RobotContainer.getDriverLeftJoystick(), RobotContainer.getDriverRightJoystick());
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    manipulatorSubsystem.setManipulator(0);
+  }
 
   // Returns true when the command should end.
   @Override

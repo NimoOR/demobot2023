@@ -4,21 +4,21 @@
 
 package frc.robot.commands;
 
-
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Manipulator;
 
-/** An example command that uses an example subsystem. */
-public class TankDrive extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  
-  private final Drive drive;
-  public TankDrive(Drive subsystem) {
-    drive = subsystem;
+public class Arm extends CommandBase {
+  private final Manipulator manipulatorSubsystem;
+
+
+  /** Creates a new ArmCommand. */
+  public Arm(Manipulator subsystem) {
+    manipulatorSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drive);
+    addRequirements(manipulatorSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +28,7 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.setPower(RobotContainer.getDriverLeftJoystick(), RobotContainer.getDriverRightJoystick());
+    manipulatorSubsystem.setArm(RobotContainer.getManipulatorLeftJoystick() * Constants.armMaxSpeed);
   }
 
   // Called once the command ends or is interrupted.

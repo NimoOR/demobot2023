@@ -5,13 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
+import frc.robot.commands.*;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.commands.TankDrive;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,27 +18,56 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final static Joystick joystick = new Joystick(0);
+  // subsystems are defined here:
+  private static final Drive m_drive = new Drive();
+  private static final Manipulator m_manipulator = new Manipulator();
   
-  private final Drive m_drive = new Drive(joystick);
+  // commands are defined here:
+  private static TankDrive tankDrive = new TankDrive(m_drive);
+  private static Arm armCommand = new Arm(m_manipulator);
+  private static ManipulatorToggle manipulatorCommand = new ManipulatorToggle(m_manipulator);
 
-  private static TankDrive tankDrive;
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private static final CommandXboxController m_driverController =
+    new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private static final CommandXboxController m_manipulatorController =
+    new CommandXboxController(OperatorConstants.kManipulatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-     
+    System.out.println("Configuring buttons");
+
+    configureButtonBindings();
   }
-  public void configureButtonBinding(){
-    tankDrive.schedule(); 
+
+  public void configureButtonBindings() {
+    m_manipulatorController.a().whileTrue(manipulatorCommand);
+
+    System.out.println("Buttons Configured");
   }
-  public double getDriverLeftJoystick(){
-    return joystick.getRawAxis(1);
+
+  public static CommandXboxController getDriverController() {
+    return m_driverController;
   }
-  public double getDriveRightJoystick(){
-    return joystick.getRawAxis(5);
+
+  public static double getDriverLeftJoystick() {
+    return m_driverController.getRawAxis(1);
+  }
+
+  public static double getDriverRightJoystick() {
+    return m_driverController.getRawAxis(5);
+  }
+
+  public static double getManipulatorLeftJoystick() {
+    return m_manipulatorController.getRawAxis(1);
+  }
+  
+  public static double getManipulatorRightJoystick() {
+    return m_manipulatorController.getRawAxis(5);
+  }
+
+  public static void initTelopCommands() {
+    tankDrive.schedule();
+    armCommand.schedule();
   }
 }

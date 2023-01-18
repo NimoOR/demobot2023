@@ -3,29 +3,42 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase {
-  private static Joystick joystick;
-
-  private final static Spark leftmotors1 = new Spark(1);
-  private final static Spark leftmotors2 = new Spark(2);
-  private final static Spark rightmotors1 = new Spark(3);
-  private final static Spark rightmotors2 = new Spark(4);
-  public Drive(Joystick stick) {
-    
-    joystick = stick;
+  private final static CANSparkMax leftmotors1 = new CANSparkMax(Constants.MotorControllerPorts.kDriveLeft1, MotorType.kBrushless);
+  private final static CANSparkMax leftmotors2 = new CANSparkMax(Constants.MotorControllerPorts.kDriveLeft2, MotorType.kBrushless);
+  private final static CANSparkMax rightmotors1 = new CANSparkMax(Constants.MotorControllerPorts.kDriveRight1, MotorType.kBrushless);
+  private final static CANSparkMax rightmotors2 = new CANSparkMax(Constants.MotorControllerPorts.kDriveRight2, MotorType.kBrushless);
   
+  public Drive() {
+    rightmotors1.setInverted(true);
+    rightmotors2.setInverted(true);
+
+    leftmotors1.setIdleMode(IdleMode.kCoast);
+    leftmotors2.setIdleMode(IdleMode.kCoast);
+    rightmotors1.setIdleMode(IdleMode.kCoast);
+    rightmotors2.setIdleMode(IdleMode.kCoast);
   }
   
-  public void setPower(double leftPower, double rightPower){
+  public void setPower(double leftPower, double rightPower) {
+    if (Math.abs(leftPower) < Constants.OperatorConstants.deadBand) {
+      leftPower = 0;
+    }
+
+    if (Math.abs(rightPower) < Constants.OperatorConstants.deadBand) {
+      rightPower = 0;
+    }
+
+    System.out.println(leftPower + ", " + rightPower);
+
     leftmotors1.set(leftPower);
     leftmotors2.set(leftPower);
 
@@ -34,8 +47,6 @@ public class Drive extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    setPower(joystick.getRawAxis(5),joystick.getRawAxis(1));
-  }
+  public void periodic() {}
 
 }
