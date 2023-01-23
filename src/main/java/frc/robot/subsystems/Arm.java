@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -21,11 +22,25 @@ public class Arm extends SubsystemBase {
     arm1.setIdleMode(IdleMode.kBrake);
     arm2.setIdleMode(IdleMode.kBrake);
 
+    arm1.getPIDController().setP(Constants.armkP);
+    arm2.getPIDController().setP(Constants.armkP);
+
     arm2.follow(arm1);
   }
 
   public void setArm(double speed) {
     arm1.set(speed);
+  }
+
+  public void resetArmPos() {
+    arm1.getEncoder().setPosition(0);
+  }
+
+  public void setArmPos(double pos) {
+    arm1.getPIDController().setReference(pos, ControlType.kPosition);
+    arm2.getPIDController().setReference(pos, ControlType.kPosition);
+
+    System.out.println(pos);
   }
 
   @Override

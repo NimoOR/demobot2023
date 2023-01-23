@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 
-public class ArmMovement extends CommandBase {
-  private final Arm manipulatorSubsystem;
-
+public class ClawPistonRetract extends CommandBase {
+  private final Intake manipulatorSubsystem;
 
   /** Creates a new ArmCommand. */
-  public ArmMovement(Arm subsystem) {
+  public ClawPistonRetract(Intake subsystem) {
     manipulatorSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,14 +23,13 @@ public class ArmMovement extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    manipulatorSubsystem.setClaw(false);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    manipulatorSubsystem.setArm(RobotContainer.getManipulatorLeftJoystick() * Constants.armMaxSpeed);
-    // manipulatorSubsystem.setArmPos();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

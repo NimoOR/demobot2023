@@ -10,11 +10,11 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 
-public class ClawPiston extends CommandBase {
+public class ClawPistonExtend extends CommandBase {
   private final Intake manipulatorSubsystem;
 
   /** Creates a new ArmCommand. */
-  public ClawPiston(Intake subsystem) {
+  public ClawPistonExtend(Intake subsystem) {
     manipulatorSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,13 +23,13 @@ public class ClawPiston extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    manipulatorSubsystem.setClaw(true);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    manipulatorSubsystem.setClaw();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

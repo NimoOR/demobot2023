@@ -27,9 +27,9 @@ public class Intake extends SubsystemBase {
     intake.set(speed);
   }
 
-  public void setClaw(){
-    claw1.set(!claw1.get());
-    claw2.set(!claw2.get());
+  public void setClaw(Boolean value) {
+    claw1.set(value);
+    claw2.set(value);
   }
   @Override
   public void periodic() {

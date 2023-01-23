@@ -38,4 +38,6 @@ public final class Constants {
   public static final double armMaxSpeed = 0.5;
   public static final double manipulatorSpeed = 1;
   public static final double tankDriveSpeed = 0.5;
+
+  public static final double armkP = 2;
 }
