@@ -6,37 +6,34 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Intake;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Arm;
 
-public class ManipulatorToggle extends CommandBase {
-  private final Intake intakeSubsystem;
+public class ArmMovement extends CommandBase {
+  private final Arm manipulatorSubsystem;
 
-  private double oldValue = -Constants.manipulatorSpeed;
 
-  /** Creates a new ManipulatorToggle. */
-  public ManipulatorToggle(Intake subsystem) {
-    intakeSubsystem = subsystem;
+  /** Creates a new ArmCommand. */
+  public ArmMovement(Arm subsystem) {
+    manipulatorSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
+    addRequirements(manipulatorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    oldValue *= -1;
-    intakeSubsystem.setIntake(oldValue);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    manipulatorSubsystem.setArm(RobotContainer.getManipulatorLeftJoystick() * Constants.armMaxSpeed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    intakeSubsystem.setIntake(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

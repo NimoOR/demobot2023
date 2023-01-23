@@ -4,13 +4,12 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
   private final static CANSparkMax leftmotors1 = new CANSparkMax(Constants.MotorControllerPorts.kDriveLeft1, MotorType.kBrushless);
@@ -19,9 +18,7 @@ public class Drive extends SubsystemBase {
   private final static CANSparkMax rightmotors2 = new CANSparkMax(Constants.MotorControllerPorts.kDriveRight2, MotorType.kBrushless);
   
   public Drive() {
-    rightmotors1.setInverted(true);
-    rightmotors2.setInverted(true);
-
+    
     leftmotors1.setIdleMode(IdleMode.kCoast);
     leftmotors2.setIdleMode(IdleMode.kCoast);
     rightmotors1.setIdleMode(IdleMode.kCoast);
@@ -39,11 +36,11 @@ public class Drive extends SubsystemBase {
 
     System.out.println(leftPower + ", " + rightPower);
 
-    leftmotors1.set(leftPower);
-    leftmotors2.set(leftPower);
+    leftmotors1.set(leftPower * Constants.tankDriveSpeed);
+    leftmotors2.set(leftPower * Constants.tankDriveSpeed);
 
-    rightmotors1.set(rightPower);
-    rightmotors2.set(rightPower);
+    rightmotors1.set(rightPower * Constants.tankDriveSpeed);
+    rightmotors2.set(rightPower * Constants.tankDriveSpeed);
   }
 
   @Override
