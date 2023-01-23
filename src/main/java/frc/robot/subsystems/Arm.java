@@ -8,8 +8,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -30,6 +28,7 @@ public class Arm extends SubsystemBase {
 
   public void setArm(double speed) {
     arm1.set(speed);
+    System.out.println(arm1.getEncoder().getPosition());
   }
 
   public void resetArmPos() {
@@ -39,8 +38,6 @@ public class Arm extends SubsystemBase {
   public void setArmPos(double pos) {
     arm1.getPIDController().setReference(pos, ControlType.kPosition);
     arm2.getPIDController().setReference(pos, ControlType.kPosition);
-
-    System.out.println(pos);
   }
 
   @Override
