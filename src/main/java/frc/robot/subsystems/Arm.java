@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-//imported modules needed
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -30,7 +30,7 @@ public class Arm extends SubsystemBase {
     arm1.set(speed);
     System.out.println(arm1.getEncoder().getPosition());
   }
-
+//Resets the position of the arm
   public void resetArmPos() {
     arm1.getEncoder().setPosition(0);
   }
