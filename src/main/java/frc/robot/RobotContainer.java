@@ -10,6 +10,7 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.TankDrive;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
@@ -22,7 +23,7 @@ public class RobotContainer {
   // subsystems are defined here:
   private static final Drive m_drive = new Drive();
   private static final Arm m_arm = new Arm();
-  private static final Intake m_intake = new Intake();
+  // private static final Intake m_intake = new Intake();
   
   // commands are defined here:
   private static TankDrive tankDrive = new TankDrive(m_drive);
