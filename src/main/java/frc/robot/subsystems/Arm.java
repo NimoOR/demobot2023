@@ -30,7 +30,7 @@ public class Arm extends SubsystemBase {
     arm1.set(speed);
     System.out.println(arm1.getEncoder().getPosition());
   }
-//Resets the position of the arm
+
   public void resetArmPos() {
     arm1.getEncoder().setPosition(0);
   }
