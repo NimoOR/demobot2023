@@ -10,6 +10,7 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.TankDrive;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
@@ -22,14 +23,14 @@ public class RobotContainer {
   // subsystems are defined here:
   private static final Drive m_drive = new Drive();
   private static final Arm m_arm = new Arm();
-  private static final Intake m_intake = new Intake();
+  // private static final Intake m_intake = new Intake();
   
   // commands are defined here:
   private static TankDrive tankDrive = new TankDrive(m_drive);
   private static ArmMovement armCommand = new ArmMovement(m_arm);
-  private static ClawPistonExtend clawPistonExtentCommand = new ClawPistonExtend(m_intake);
-  private static ClawPistonRetract clawPistonRetractCommand = new ClawPistonRetract(m_intake);
-  private static ManipulatorToggle manipulatorCommand = new ManipulatorToggle(m_intake);
+  // private static ClawPistonExtend clawPistonExtentCommand = new ClawPistonExtend(m_intake);
+  // private static ClawPistonRetract clawPistonRetractCommand = new ClawPistonRetract(m_intake);
+  // private static ManipulatorToggle manipulatorCommand = new ManipulatorToggle(m_intake);
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private static final CommandXboxController m_driverController =
@@ -46,7 +47,11 @@ public class RobotContainer {
 
   public void configureButtonBindings() {
     
-    m_manipulatorController.a().whileTrue(manipulatorCommand);
+    // m_manipulatorController.b().onTrue(new InstantCommand(() -> {
+    //   m_arm.setArmPos(4.2);
+    // }, m_arm));
+
+    // m_manipulatorController.a().whileTrue(manipulatorCommand);
     // m_manipulatorController.x().whileTrue(clawPistonExtentCommand);
     // m_manipulatorController.y().whileTrue(clawPistonRetractCommand);
     System.out.println("Buttons Configured");

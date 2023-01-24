@@ -5,16 +5,24 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
   private final static CANSparkMax arm1 = new CANSparkMax(Constants.MotorControllerPorts.kArm1, MotorType.kBrushless);
   private final static CANSparkMax arm2 = new CANSparkMax(Constants.MotorControllerPorts.kArm2, MotorType.kBrushless);
-  
+
+  private final static DutyCycleEncoder enc = new DutyCycleEncoder(0);
+  //arm2.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, 8192);
+
   /** Creates a new Manipulator. */
   public Arm() {
     arm1.setIdleMode(IdleMode.kBrake);
@@ -28,7 +36,7 @@ public class Arm extends SubsystemBase {
 
   public void setArm(double speed) {
     arm1.set(speed);
-    System.out.println(arm1.getEncoder().getPosition());
+    System.out.println(enc.getAbsolutePosition());
   }
 
   public void resetArmPos() {
