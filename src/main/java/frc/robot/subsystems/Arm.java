@@ -11,7 +11,6 @@ import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,10 +18,9 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase {
   private final static CANSparkMax arm1 = new CANSparkMax(Constants.MotorControllerPorts.kArm1, MotorType.kBrushless);
   private final static CANSparkMax arm2 = new CANSparkMax(Constants.MotorControllerPorts.kArm2, MotorType.kBrushless);
-
+  private double voltageChange;
+  private double voltage;
   private final static DutyCycleEncoder enc = new DutyCycleEncoder(0);
-  //arm2.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, 8192);
-
   /** Creates a new Manipulator. */
   public Arm() {
     arm1.setIdleMode(IdleMode.kBrake);
@@ -38,7 +36,12 @@ public class Arm extends SubsystemBase {
     arm1.set(speed);
     System.out.println(enc.getAbsolutePosition());
   }
-
+  public double PID(double setPoint, double error, double oldError, double currentVoltage){
+    error = setPoint - enc.getAbsolutePosition();
+    voltageChange = error*Constants.PIDConstants.kArmP;
+    voltage += voltageChange;
+    return voltage;
+  }
   public void resetArmPos() {
     arm1.getEncoder().setPosition(0);
   }

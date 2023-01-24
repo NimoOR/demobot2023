@@ -23,7 +23,7 @@ public class RobotContainer {
   // subsystems are defined here:
   private static final Drive m_drive = new Drive();
   private static final Arm m_arm = new Arm();
-  // private static final Intake m_intake = new Intake();
+  private static final Intake m_intake = new Intake();
   
   // commands are defined here:
   private static TankDrive tankDrive = new TankDrive(m_drive);
