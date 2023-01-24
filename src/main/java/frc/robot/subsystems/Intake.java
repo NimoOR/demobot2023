@@ -9,12 +9,13 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   private final static CANSparkMax intake = new CANSparkMax(Constants.MotorControllerPorts.kManipulator, MotorType.kBrushless);
-
+  private final static DigitalInput ManipulatorSwitch = new DigitalInput(1);
   private final static Solenoid claw1 = new Solenoid(PneumaticsModuleType.REVPH, Constants.MotorControllerPorts.kClaw1Solenoid);
   private final static Solenoid claw2 = new Solenoid(PneumaticsModuleType.REVPH, Constants.MotorControllerPorts.kClaw2Solenoid);
 
@@ -24,15 +25,23 @@ public class Intake extends SubsystemBase {
   }
 
   public void setIntake(double speed) {
-    intake.set(speed);
+      intake.set(speed); 
   }
 
-  public void setClaw(Boolean value) {
-    claw1.set(value);
-    claw2.set(value);
+  public void setClaw(){
+    claw1.set(!claw1.get());
+    claw2.set(!claw2.get());
   }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+  
+  public boolean cancelIfLimitTriggered() {
+    if(!ManipulatorSwitch.get()){
+      intake.set(0);
+      return true;
+    }
+    return false;
   }
 }

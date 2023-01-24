@@ -27,9 +27,9 @@ public class RobotContainer {
   // commands are defined here:
   private static TankDrive tankDrive = new TankDrive(m_drive);
   private static ArmMovement armCommand = new ArmMovement(m_arm);
-  private static ClawPistonExtend clawPistonExtentCommand = new ClawPistonExtend(m_intake);
-  private static ClawPistonRetract clawPistonRetractCommand = new ClawPistonRetract(m_intake);
-  private static ManipulatorToggle manipulatorCommand = new ManipulatorToggle(m_intake);
+  private static ClawPiston clawPistonCommand = new ClawPiston(m_intake);
+  private static ManipulatorIn manipulatorInCommand = new ManipulatorIn(m_intake);
+  private static ManipulatorOut manipulatorOutCommand = new ManipulatorOut(m_intake);
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private static final CommandXboxController m_driverController =
@@ -46,9 +46,9 @@ public class RobotContainer {
 
   public void configureButtonBindings() {
     
-    m_manipulatorController.a().whileTrue(manipulatorCommand);
-    // m_manipulatorController.x().whileTrue(clawPistonExtentCommand);
-    // m_manipulatorController.y().whileTrue(clawPistonRetractCommand);
+    m_manipulatorController.a().whileTrue(manipulatorInCommand);
+    m_manipulatorController.b().whileTrue(manipulatorOutCommand);
+    // m_manipulatorController.x().whileTrue(clawPistonCommand);
     System.out.println("Buttons Configured");
   }
 
@@ -72,7 +72,7 @@ public class RobotContainer {
   }
   
   public static void initTelopCommands() {
-    // tankDrive.schedule();
+    tankDrive.schedule();
     armCommand.schedule();
   }
 }

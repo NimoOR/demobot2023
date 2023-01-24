@@ -6,38 +6,42 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 
-public class ClawPistonExtend extends CommandBase {
-  private final Intake manipulatorSubsystem;
+public class ManipulatorIn extends CommandBase {
+  private final Intake intakeSubsystem;
 
-  /** Creates a new ArmCommand. */
-  public ClawPistonExtend(Intake subsystem) {
-    manipulatorSubsystem = subsystem;
+  private boolean doFinish = false;
+
+  /** Creates a new ManipulatorToggle. */
+  public ManipulatorIn(Intake subsystem) {
+    intakeSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(manipulatorSubsystem);
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    manipulatorSubsystem.setClaw(true);
+    intakeSubsystem.setIntake(Constants.manipulatorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    doFinish = intakeSubsystem.cancelIfLimitTriggered();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intakeSubsystem.setIntake(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return doFinish;
   }
 }

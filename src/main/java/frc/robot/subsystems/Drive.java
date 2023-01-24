@@ -18,6 +18,8 @@ public class Drive extends SubsystemBase {
   private final static CANSparkMax rightmotors2 = new CANSparkMax(Constants.MotorControllerPorts.kDriveRight2, MotorType.kBrushless);
   
   public Drive() {
+    leftmotors1.setInverted(true);
+    leftmotors2.setInverted(true);
     
     leftmotors1.setIdleMode(IdleMode.kCoast);
     leftmotors2.setIdleMode(IdleMode.kCoast);
