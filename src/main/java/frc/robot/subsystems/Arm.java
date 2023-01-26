@@ -42,7 +42,7 @@ public class Arm extends SubsystemBase {
   }
 
   public double PID(double setPoint) {
-    double error = setPoint - enc.getAbsolutePosition();
+    double error = enc.getAbsolutePosition() - setPoint;
     proportional = error * Constants.PIDConstants.kArmP;
     integral += error * Constants.PIDConstants.kArmI * Constants.PIDConstants.cycleTime;
     derivative = Constants.PIDConstants.kArmD * (error - oldError) / Constants.PIDConstants.cycleTime;
@@ -53,11 +53,11 @@ public class Arm extends SubsystemBase {
 
     if(voltage < -3.0) {
       voltage = -3.0;
-    } else if (voltage > 0) {
-      voltage = 0;
+    } else if (voltage > 1) {
+      voltage = 1;
     }
 
-    System.out.println(error + ", " + voltage);
+    System.out.println(error + ", " + voltage + ", " + proportional);
 
     return voltage;
   }
