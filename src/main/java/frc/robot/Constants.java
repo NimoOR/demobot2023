@@ -35,9 +35,16 @@ public final class Constants {
     public static final int kClaw2Solenoid = 2;
   }
 
-  public static final double armMaxSpeed = 0.5;
-  public static final double manipulatorSpeed = 0.5;
-  public static final double tankDriveSpeed = 0.420;
+  public static class PIDConstants {
+    public static final double kArmP = 0.25d;
+    public static final double kArmI = 0.0;
+    public static final double kArmD = 0.0;
 
-  public static final double armkP = 2;
+    public static final double cycleTime = 50;
+  }
+
+  public static final double armMaxSpeed = 0.5d;
+  public static final double manipulatorSpeed = 0.5d;
+  public static final double tankDriveSpeed = 0.4d;
+
 }

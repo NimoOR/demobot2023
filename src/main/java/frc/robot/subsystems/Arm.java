@@ -18,16 +18,20 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase {
   private final static CANSparkMax arm1 = new CANSparkMax(Constants.MotorControllerPorts.kArm1, MotorType.kBrushless);
   private final static CANSparkMax arm2 = new CANSparkMax(Constants.MotorControllerPorts.kArm2, MotorType.kBrushless);
-  private double voltageChange;
-  private double voltage;
+  
   private final static DutyCycleEncoder enc = new DutyCycleEncoder(0);
+  
+  private double proportional = 0.0;
+  private double voltage = 0.0;
+  private double integral = 0.0;
+  private double derivative = 0.0;
+  private double oldError = 0.0;
+
+  
   /** Creates a new Manipulator. */
   public Arm() {
     arm1.setIdleMode(IdleMode.kBrake);
     arm2.setIdleMode(IdleMode.kBrake);
-
-    arm1.getPIDController().setP(Constants.armkP);
-    arm2.getPIDController().setP(Constants.armkP);
 
     arm2.follow(arm1);
   }
@@ -36,23 +40,36 @@ public class Arm extends SubsystemBase {
     arm1.set(speed);
     System.out.println(enc.getAbsolutePosition());
   }
-  public double PID(double setPoint, double error, double oldError, double currentVoltage){
-    error = setPoint - enc.getAbsolutePosition();
-    voltageChange = error*Constants.PIDConstants.kArmP;
-    voltage += voltageChange;
+
+  public double PID(double setPoint) {
+    double error = setPoint - enc.getAbsolutePosition();
+    proportional = error * Constants.PIDConstants.kArmP;
+    integral += error * Constants.PIDConstants.kArmI * Constants.PIDConstants.cycleTime;
+    derivative = Constants.PIDConstants.kArmD * (error - oldError) / Constants.PIDConstants.cycleTime;
+
+    voltage += proportional + integral + derivative;
+
+    oldError = error;
+
+    if(voltage < -3.0) {
+      voltage = -3.0;
+    } else if (voltage > 0) {
+      voltage = 0;
+    }
+
+    System.out.println(error + ", " + voltage);
+
     return voltage;
-  }
-  public void resetArmPos() {
-    arm1.getEncoder().setPosition(0);
   }
 
   public void setArmPos(double pos) {
-    arm1.getPIDController().setReference(pos, ControlType.kPosition);
-    arm2.getPIDController().setReference(pos, ControlType.kPosition);
+    arm1.setVoltage(PID(pos));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    // System.out.println(arm1.get() * arm1.getBusVoltage());
   }
 }

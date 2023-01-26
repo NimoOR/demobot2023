@@ -6,10 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Intake;
-import frc.robot.commands.TankDrive;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -27,6 +24,7 @@ public class RobotContainer {
   
   // commands are defined here:
   private static TankDrive tankDrive = new TankDrive(m_drive);
+  private static ArmSetPos armSetPos8 = new ArmSetPos(0.8d, m_arm);
   private static ArmMovement armCommand = new ArmMovement(m_arm);
   private static ClawPiston clawPistonCommand = new ClawPiston(m_intake);
   private static ManipulatorIn manipulatorInCommand = new ManipulatorIn(m_intake);
@@ -46,6 +44,8 @@ public class RobotContainer {
   }
 
   public void configureButtonBindings() {
+
+    m_manipulatorController.y().whileTrue(armSetPos8);
     
     m_manipulatorController.a().whileTrue(manipulatorInCommand);
     m_manipulatorController.b().whileTrue(manipulatorOutCommand);

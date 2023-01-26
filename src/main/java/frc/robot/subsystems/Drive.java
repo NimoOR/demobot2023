@@ -36,7 +36,7 @@ public class Drive extends SubsystemBase {
       rightPower = 0;
     }
 
-    System.out.println(leftPower + ", " + rightPower);
+    // System.out.println(leftPower + ", " + rightPower);
 
     leftmotors1.set(leftPower * Constants.tankDriveSpeed);
     leftmotors2.set(leftPower * Constants.tankDriveSpeed);
