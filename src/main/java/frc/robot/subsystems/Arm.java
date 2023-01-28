@@ -50,7 +50,7 @@ public class Arm extends SubsystemBase {
     voltage += proportional + integral + derivative;
 
     oldError = error;
-
+    //makes the lower limit -3.0 and upper 1 
     if(voltage < -3.0) {
       voltage = -3.0;
     } else if (voltage > 1) {
