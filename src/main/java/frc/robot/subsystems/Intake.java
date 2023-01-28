@@ -15,7 +15,7 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   private final static CANSparkMax intake = new CANSparkMax(Constants.MotorControllerPorts.kManipulator, MotorType.kBrushless);
-  private final static DigitalInput ManipulatorSwitch = new DigitalInput(1);
+  private final static DigitalInput ManipulatorSwitch = new DigitalInput(Constants.MotorControllerPorts.intakeLimitPort);
   private final static Solenoid claw1 = new Solenoid(PneumaticsModuleType.REVPH, Constants.MotorControllerPorts.kClaw1Solenoid);
   private final static Solenoid claw2 = new Solenoid(PneumaticsModuleType.REVPH, Constants.MotorControllerPorts.kClaw2Solenoid);
 
@@ -35,6 +35,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // System.out.println(ManipulatorSwitch.get());
   }
   
   public boolean cancelIfLimitTriggered() {

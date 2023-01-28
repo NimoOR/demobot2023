@@ -19,7 +19,7 @@ public class Arm extends SubsystemBase {
   private final static CANSparkMax arm1 = new CANSparkMax(Constants.MotorControllerPorts.kArm1, MotorType.kBrushless);
   private final static CANSparkMax arm2 = new CANSparkMax(Constants.MotorControllerPorts.kArm2, MotorType.kBrushless);
   
-  private final static DutyCycleEncoder enc = new DutyCycleEncoder(0);
+  private final static DutyCycleEncoder enc = new DutyCycleEncoder(5);
   
   private double proportional = 0.0;
   private double voltage = 0.0;
@@ -38,11 +38,12 @@ public class Arm extends SubsystemBase {
 
   public void setArm(double speed) {
     arm1.set(speed);
-    System.out.println(enc.getAbsolutePosition());
   }
 
   public double PID(double setPoint) {
-    double error = enc.getAbsolutePosition() - setPoint;
+    System.out.println(setPoint + ", " + enc.getAbsolutePosition() + ", " + (setPoint - enc.getAbsolutePosition()));
+
+    double error = setPoint - enc.getAbsolutePosition();
     proportional = error * Constants.PIDConstants.kArmP;
     integral += error * Constants.PIDConstants.kArmI * Constants.PIDConstants.cycleTime;
     derivative = Constants.PIDConstants.kArmD * (error - oldError) / Constants.PIDConstants.cycleTime;
@@ -53,8 +54,8 @@ public class Arm extends SubsystemBase {
 
     if(voltage < -3.0) {
       voltage = -3.0;
-    } else if (voltage > 1) {
-      voltage = 1;
+    } else if (voltage > 0) {
+      voltage = 0;
     }
 
     System.out.println(error + ", " + voltage + ", " + proportional);
@@ -70,6 +71,6 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // System.out.println(arm1.get() * arm1.getBusVoltage());
+    System.out.println(enc.getAbsolutePosition());
   }
 }

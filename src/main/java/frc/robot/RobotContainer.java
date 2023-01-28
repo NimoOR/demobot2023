@@ -73,7 +73,7 @@ public class RobotContainer {
   }
   
   public static void initTelopCommands() {
-    tankDrive.schedule();
+    // tankDrive.schedule();
     armCommand.schedule();
   }
 }
