@@ -5,23 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Limelight;
 
-public class ArmSetPos extends CommandBase {
-  private final Arm manipulatorSubsystem;
+public class AutoAlign extends CommandBase {
+  private static Limelight limelightSubsystem;
+  private static Drive driveSubsystem;
 
-  private final double setPoint;
-
-  /** Creates a new ArmCommand. */
-  public ArmSetPos(double pos, Arm subsystem) {
-    manipulatorSubsystem = subsystem;
-
-    setPoint = pos;
-
+  /** Creates a new AutoAlign. */
+  public AutoAlign(Limelight limelight, Drive drive) {
+    limelightSubsystem = limelight;
+    driveSubsystem = drive;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(manipulatorSubsystem);
+    addRequirements(limelightSubsystem, driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -31,14 +28,14 @@ public class ArmSetPos extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    manipulatorSubsystem.setArmPos(setPoint);
+    double[] speeds = limelightSubsystem.getSpeeds();
+    driveSubsystem.setPower(speeds[0] * 0.5, speeds[1] * 0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    manipulatorSubsystem.setArm(0.0d);
-    RobotContainer.initArmMovement();
+    RobotContainer.initTankDrive();
   }
 
   // Returns true when the command should end.
